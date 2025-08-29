@@ -1,5 +1,6 @@
 # CAGrepeat-analyzer
-- plot CAG reapeats human genome
+- plot CAG reapeats human genome.
+- implemented a tokenizer approach with async to enable faster searches as compared to regex based.
 
 ```
 ____      _       ____   ____                                  _
