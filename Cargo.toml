@@ -2,6 +2,11 @@
 name = "CAGrepeat-analyzer"
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
+authors = ["Gaurav Sablok <gsablok@ibch.poznan.pl>"]
+description = "CAG repeat for human genomics"
+homepage = "https://github.com/genomicssport/CAGrepeat-analyzer"
+repository = "https://github.com/genomicssport/CAGrepeat-analyzer"
 
 [dependencies]
 clap = { version = "4.5.46", features = ["derive"] }
