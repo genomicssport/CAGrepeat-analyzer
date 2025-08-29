@@ -1,6 +1,7 @@
 # CAGrepeat-analyzer
 - plot CAG reapeats human genome.
 - implemented a tokenizer approach with async to enable faster searches as compared to regex based.
+- profiling all CAG repeat across human genome or any other genome at async speed.
 
 ```
 ____      _       ____   ____                                  _
@@ -21,13 +22,18 @@ Usage: CAGrepeat-analyzer <COMMAND>
 
 Commands:
 cag-repeat       CAG repeat pattern
-cag-repeat-plot  CAG repeat pattern specific sequence
 help             Print this message or the help of the given subcommand(s)
 
 Options:
 -h, --help     Print help
 -V, --version  Print version
 ```
+
+```
+./target/debug/CAGrepeat-analyzer cag-repeat ./test-files/test.fa
+ENST00000832824.1	3
+```
+
 Gaurav Sablok \
 Instytut Chemii Bioorganicznej \
 Polskiej Akademii Nauk \

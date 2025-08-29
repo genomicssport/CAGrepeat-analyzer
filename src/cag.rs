@@ -70,7 +70,10 @@ pub async fn caganalyzer(filepath: &str) -> Result<String, Box<dyn Error>> {
 
     let mut filewrite = File::create("plotfrequency.txt").expect("file not found");
     for i in genomevec_vec.iter() {
-        writeln!(filewrite, "{}\t{}", i.0, i.1).expect("file not present");
+        let idwrite = i.0.split("|").collect::<Vec<_>>()[0]
+            .replace(">", "")
+            .to_string();
+        writeln!(filewrite, "{}\t{}", idwrite, i.1).expect("file not present");
     }
 
     Ok("The cag repeats have been analyzed".to_string())

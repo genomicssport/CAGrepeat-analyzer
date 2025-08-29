@@ -1,9 +1,7 @@
 mod args;
-mod barplot;
 mod cag;
 use crate::args::CommandParse;
 use crate::args::Commands;
-use crate::barplot::cagplotter;
 use crate::cag::caganalyzer;
 use clap::Parser;
 use figlet_rs::FIGfont;
@@ -16,8 +14,7 @@ use figlet_rs::FIGfont;
  Date: 2025-8-29
 */
 
-#[tokio::main]
-async fn main() {
+fn main() {
     let fontgenerate = FIGfont::standard().unwrap();
     let repgenerate = fontgenerate.convert("CAGRepeat");
     println!("{}", repgenerate.unwrap());
@@ -26,10 +23,6 @@ async fn main() {
         Commands::CAGRepeat { filepath } => {
             let command = caganalyzer(filepath).unwrap();
             println!("The command has been finished:{}", command);
-        }
-        Commands::CAGRepeatPlot { filepath, idstring } => {
-            let command = cagplotter(filepath, idstring).unwrap();
-            println!("The command has finished:{}", command);
         }
     }
 }

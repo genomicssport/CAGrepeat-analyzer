@@ -23,11 +23,4 @@ pub enum Commands {
         /// path to the sequence file
         filepath: String,
     },
-    /// CAG repeat pattern specific sequence
-    CAGRepeatPlot {
-        /// path to the sequence file
-        filepath: String,
-        /// id
-        idstring: String,
-    },
 }
