@@ -19,8 +19,9 @@ CAG repeat pattern.
 Usage: CAGrepeat-analyzer <COMMAND>
 
 Commands:
-cag-repeat  CAG repeat pattern
-help        Print this message or the help of the given subcommand(s)
+cag-repeat       CAG repeat pattern
+cag-repeat-plot  CAG repeat pattern specific sequence
+help             Print this message or the help of the given subcommand(s)
 
 Options:
 -h, --help     Print help

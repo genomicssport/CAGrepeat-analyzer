@@ -8,6 +8,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "figlet-rs",
+ "plotpy",
  "tokio",
 ]
 
@@ -239,6 +240,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "num-traits"
+version = "0.2.19"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "071dfc062690e90b734c0b2273ce72ad0ffa95f0c74596bc250dcfd960262841"
+dependencies = [
+ "autocfg",
+]
+
+[[package]]
 name = "object"
 version = "0.36.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -281,6 +291,15 @@ name = "pin-project-lite"
 version = "0.2.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3b3cff922bd51709b605d9ead9aa71031d81447142d828eb4a6eba76fe619f9b"
+
+[[package]]
+name = "plotpy"
+version = "1.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5d968db0649e031f9b3d34263659a6785e779f71e638bde0546a0d28208b5372"
+dependencies = [
+ "num-traits",
+]
 
 [[package]]
 name = "proc-macro2"

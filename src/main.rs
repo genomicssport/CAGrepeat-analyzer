@@ -1,7 +1,9 @@
 mod args;
+mod barplot;
 mod cag;
 use crate::args::CommandParse;
 use crate::args::Commands;
+use crate::barplot::cagplotter;
 use crate::cag::caganalyzer;
 use clap::Parser;
 use figlet_rs::FIGfont;
@@ -24,6 +26,10 @@ async fn main() {
         Commands::CAGRepeat { filepath } => {
             let command = caganalyzer(filepath).unwrap();
             println!("The command has been finished:{}", command);
+        }
+        Commands::CAGRepeatPlot { filepath, idstring } => {
+            let command = cagplotter(filepath, idstring).unwrap();
+            println!("The command has finished:{}", command);
         }
     }
 }

@@ -1,6 +1,7 @@
+use plotpy::Barplot;
+use plotpy::Plot;
 use std::error::Error;
 use std::fs::File;
-use std::io::Write;
 use std::io::{BufRead, BufReader};
 
 /*
@@ -18,7 +19,7 @@ pub struct FastaStruct {
 }
 
 #[tokio::main]
-pub async fn caganalyzer(filepath: &str) -> Result<String, Box<dyn Error>> {
+pub async fn cagplotter(filepath: &str, idinput: &str) -> Result<String, Box<dyn Error>> {
     let fileopen = File::open(filepath).expect("file not present");
     let fileread = BufReader::new(fileopen);
     let mut id: Vec<_> = Vec::new();
@@ -37,7 +38,7 @@ pub async fn caganalyzer(filepath: &str) -> Result<String, Box<dyn Error>> {
     for i in 0..id.len() {
         genomevec.push(FastaStruct {
             id: id[i].clone().to_string(),
-            seq: seq[i].clone(),
+            seq: seq[i].clone().to_string(),
         })
     }
 
@@ -68,10 +69,28 @@ pub async fn caganalyzer(filepath: &str) -> Result<String, Box<dyn Error>> {
         genomevec_vec.push(unitvector);
     }
 
-    let mut filewrite = File::create("plotfrequency.txt").expect("file not found");
+    let mut plotcag = Vec::new();
+    let mut plotcag_count = Vec::new();
+
     for i in genomevec_vec.iter() {
-        writeln!(filewrite, "{}\t{}", i.0, i.1).expect("file not present");
+        if i.0 == idinput {
+            plotcag.push(i.0.as_str());
+            plotcag_count.push(i.1);
+        }
     }
+
+    let mut bar = Barplot::new();
+    bar.set_horizontal(true)
+        .set_with_text("edge")
+        .draw_with_str(plotcag.as_slice(), &plotcag_count);
+
+    let mut plot = Plot::new();
+    plot.set_inv_y()
+        .add(&bar)
+        .set_title("CAG repeat")
+        .set_label_x("CAG Count");
+
+    plot.save("cagplot.svg")?;
 
     Ok("The cag repeats have been analyzed".to_string())
 }
