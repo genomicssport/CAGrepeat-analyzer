@@ -18,7 +18,7 @@ pub struct FastaStruct {
 }
 
 #[tokio::main]
-pub async fn caganalyzer(filepath: &str) -> Result<String, Box<dyn Error>> {
+pub async fn caganalyzer(filepath: &str, outputfile: &str) -> Result<String, Box<dyn Error>> {
     let fileopen = File::open(filepath).expect("file not present");
     let fileread = BufReader::new(fileopen);
     let mut id: Vec<_> = Vec::new();
@@ -68,12 +68,9 @@ pub async fn caganalyzer(filepath: &str) -> Result<String, Box<dyn Error>> {
         genomevec_vec.push(unitvector);
     }
 
-    let mut filewrite = File::create("plotfrequency.txt").expect("file not found");
+    let mut filewrite = File::create(outputfile).expect("file not found");
     for i in genomevec_vec.iter() {
-        let idwrite = i.0.split("|").collect::<Vec<_>>()[0]
-            .replace(">", "")
-            .to_string();
-        writeln!(filewrite, "{}\t{}", idwrite, i.1).expect("file not present");
+        writeln!(filewrite, "{}\t{}", i.0, i.1).expect("file not present");
     }
 
     Ok("The cag repeats have been analyzed".to_string())

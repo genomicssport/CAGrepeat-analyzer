@@ -22,5 +22,7 @@ pub enum Commands {
     CAGRepeat {
         /// path to the sequence file
         filepath: String,
+        /// path to the output file
+        outputfile: String,
     },
 }

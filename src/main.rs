@@ -1,5 +1,6 @@
 mod args;
 mod cag;
+
 use crate::args::CommandParse;
 use crate::args::Commands;
 use crate::cag::caganalyzer;
@@ -20,8 +21,11 @@ fn main() {
     println!("{}", repgenerate.unwrap());
     let argsparse = CommandParse::parse();
     match &argsparse.command {
-        Commands::CAGRepeat { filepath } => {
-            let command = caganalyzer(filepath).unwrap();
+        Commands::CAGRepeat {
+            filepath,
+            outputfile,
+        } => {
+            let command = caganalyzer(filepath, outputfile).unwrap();
             println!("The command has been finished:{}", command);
         }
     }
