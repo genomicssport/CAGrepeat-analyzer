@@ -1,7 +1,9 @@
+use std::collections::HashMap;
 use std::error::Error;
 use std::fs::File;
 use std::io::Write;
-use std::io::{BufRead, BufReader};
+use std::io::{self, BufRead};
+use std::path::Path;
 
 /*
  Authom GauravSablok
@@ -17,30 +19,62 @@ pub struct FastaStruct {
     seq: String,
 }
 
+#[derive(Debug)]
+pub struct FastaRecord {
+    pub id: String,
+    pub sequence: String,
+}
+
+// added a async fasta reader so that any type of NCBI formatted file can be read.
+pub fn read_fasta<P: AsRef<Path>>(path: P) -> io::Result<HashMap<String, FastaRecord>> {
+    let file = File::open(path)?;
+    let reader = io::BufReader::new(file);
+    let mut records = HashMap::new();
+    let mut current_id = String::new();
+    let mut current_sequence = String::new();
+    for line in reader.lines() {
+        let line = line?;
+        if line.starts_with('>') {
+            if !current_id.is_empty() {
+                records.insert(
+                    current_id.clone(),
+                    FastaRecord {
+                        id: current_id.clone(),
+                        sequence: current_sequence.clone(),
+                    },
+                );
+                current_sequence.clear();
+            }
+            current_id = line[1..].to_string();
+        } else {
+            current_sequence.push_str(&line);
+        }
+    }
+
+    if !current_id.is_empty() {
+        records.insert(
+            current_id.clone(),
+            FastaRecord {
+                id: current_id,
+                sequence: current_sequence,
+            },
+        );
+    }
+
+    Ok(records)
+}
+
 #[tokio::main]
 pub async fn caganalyzer(filepath: &str, outputfile: &str) -> Result<String, Box<dyn Error>> {
-    let fileopen = File::open(filepath).expect("file not present");
-    let fileread = BufReader::new(fileopen);
-    let mut id: Vec<_> = Vec::new();
-    let mut seq: Vec<_> = Vec::new();
-    for i in fileread.lines() {
-        let line = i.expect("line not present");
-        if line.starts_with(">") {
-            id.push(line.clone());
-        }
-        if !line.starts_with(">") {
-            seq.push(line)
-        }
-    }
-
+    let fasta_records = read_fasta(filepath)?;
     let mut genomevec: Vec<FastaStruct> = Vec::new();
-    for i in 0..id.len() {
+    for (_id, record) in fasta_records {
         genomevec.push(FastaStruct {
-            id: id[i].clone().to_string(),
-            seq: seq[i].clone(),
+            id: record.id.clone().to_string(),
+            seq: record.sequence.clone(),
         })
     }
-
+    println!("{:?}", genomevec);
     let mut tokensize: Vec<(String, Vec<&str>)> = Vec::new();
 
     for i in genomevec.iter() {
