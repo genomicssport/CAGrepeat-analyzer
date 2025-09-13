@@ -9,6 +9,10 @@ homepage = "https://github.com/genomicssport/CAGrepeat-analyzer"
 repository = "https://github.com/genomicssport/CAGrepeat-analyzer"
 
 [dependencies]
+charts = "0.3.0"
 clap = { version = "4.5.46", features = ["derive"] }
 figlet-rs = "0.1.5"
+plotly = { version = "0.13.5", features = ["all"] }
+plotpy = "1.13.0"
+plotters = "0.3.7"
 tokio = { version = "1.47.1", features = ["full"] }
